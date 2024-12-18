@@ -20,6 +20,9 @@ const eslintConfig = [
       "comma-dangle": ["error", "never"],
       "object-shorthand": ["error", "always"]
     }
+  },
+  {
+    ignores: ["prisma/generated/**"]
   }
 ];
 

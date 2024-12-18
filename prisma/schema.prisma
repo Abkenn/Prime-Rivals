@@ -15,7 +15,7 @@ enum RoomStatus {
 
 model Room {
   id                Int        @id @default(autoincrement())
-  code              String     @unique
+  roomCode          String     @unique
   hostPlayerName    String
   secondPlayerName  String?
   hostScore         Int        @default(0)

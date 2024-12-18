@@ -1,0 +1,24 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_PRISMA_URL")
+}
+
+enum RoomStatus {
+  Waiting
+  Playing
+  Completed
+}
+
+model Room {
+  id                Int        @id @default(autoincrement())
+  code              String     @unique
+  hostPlayerName    String
+  secondPlayerName  String?
+  hostScore         Int        @default(0)
+  secondPlayerScore Int        @default(0)
+  status            RoomStatus @default(Waiting)
+}

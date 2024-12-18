@@ -9,8 +9,8 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "prisma": "dotenv -e .env.development.local -- prisma",
-    "postinstall": "npm run prisma generate",
-    "vercel:build": "npm run prisma generate && npm run prisma migrate deploy && next build"
+    "postinstall": "npx prisma generate",
+    "vercel:build": "npx prisma generate && npx prisma migrate deploy && next build"
   },
   "dependencies": {
     "@prisma/client": "^6.1.0",

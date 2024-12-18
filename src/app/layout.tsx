@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   title: "Prime Rivals",
   openGraph: {
     title: "Prime Rivals",
-    description: "A simple pvp math game",
+    description: "A simple math pvp game",
     siteName: "Prime Rivals by Abken"
   },
 };

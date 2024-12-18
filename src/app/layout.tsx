@@ -16,7 +16,11 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Prime Rivals",
-  description: "A simple pvp math game",
+  openGraph: {
+    title: "Prime Rivals",
+    description: "A simple pvp math game",
+    siteName: "Prime Rivals by Abken"
+  },
 };
 
 export default function RootLayout({

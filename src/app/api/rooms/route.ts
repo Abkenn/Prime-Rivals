@@ -3,12 +3,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import { Realtime } from 'ably';
 
-const prisma = new PrismaClient();
-
 export async function POST(req: NextRequest) {
   const { hostPlayerName } = await req.json();
 
   const roomCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+
+  const prisma = new PrismaClient();
 
   const room = await prisma.room.create({
     data: { roomCode, hostPlayerName }
@@ -19,6 +19,8 @@ export async function POST(req: NextRequest) {
 
 export async function PUT(req: NextRequest) {
   const { roomCode, secondPlayerName } = await req.json();
+
+  const prisma = new PrismaClient();
 
   const room = await prisma.room.update({
     where: { roomCode },

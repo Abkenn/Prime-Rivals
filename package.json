@@ -6,16 +6,24 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "prisma": "dotenv -e .env.development.local -- prisma"
   },
   "dependencies": {
+    "@ably-labs/react-hooks": "^2.1.2",
+    "@prisma/client": "^6.1.0",
     "@radix-ui/react-slot": "^1.1.1",
+    "@radix-ui/react-toast": "^1.2.4",
+    "@shadcn/ui": "^0.0.4",
+    "ably": "^2.6.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.468.0",
     "next": "15.1.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-toastify": "^11.0.0",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7"
   },
@@ -24,9 +32,13 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "eslint": "^9",
+    "@typescript-eslint/eslint-plugin": "^8.18.1",
+    "@typescript-eslint/parser": "^8.18.1",
+    "dotenv-cli": "^7.4.4",
+    "eslint": "^9.17.0",
     "eslint-config-next": "15.1.1",
     "postcss": "^8",
+    "prisma": "^6.1.0",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }

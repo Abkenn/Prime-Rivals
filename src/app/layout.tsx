@@ -6,12 +6,12 @@ import type { Metadata } from "next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
-  subsets: ["latin"],
+  subsets: ["latin"]
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
-  subsets: ["latin"],
+  subsets: ["latin"]
 });
 
 export const metadata: Metadata = {
@@ -19,12 +19,12 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Prime Rivals",
     description: "A simple math pvp game",
-    siteName: "Prime Rivals by Abken"
-  },
+    siteName: "Prime Rivals"
+  }
 };
 
 export default function RootLayout({
-  children,
+  children
 }: Readonly<{
   children: React.ReactNode;
 }>) {

@@ -13,7 +13,6 @@
     "vercel:build": "npm run prisma generate && npm run prisma migrate deploy && next build"
   },
   "dependencies": {
-    "@ably-labs/react-hooks": "^2.1.2",
     "@prisma/client": "^6.1.0",
     "@radix-ui/react-slot": "^1.1.1",
     "@radix-ui/react-toast": "^1.2.4",

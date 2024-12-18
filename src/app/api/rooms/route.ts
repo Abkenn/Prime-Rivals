@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { PrismaClient } from '@prisma/client';
-import Ably from 'ably';
+import { Realtime } from 'ably';
 
 const prisma = new PrismaClient();
-const ably = new Ably.Rest({ key: process.env.ABLY_API_KEY });
 
 export async function POST(req: NextRequest) {
   const { hostPlayerName } = await req.json();
@@ -25,6 +24,8 @@ export async function PUT(req: NextRequest) {
     where: { roomCode },
     data: { secondPlayerName, status: 'Playing' }
   });
+
+  const ably = new Realtime({ key: process.env.ABLY_API_KEY });
 
   const channel = ably.channels.get(`room-${roomCode}`);
   await channel.publish('player-joined', { message: `${secondPlayerName} has joined!` });

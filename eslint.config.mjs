@@ -1,6 +1,6 @@
-import { FlatCompat } from "@eslint/eslintrc";
-import { dirname } from "path";
-import { fileURLToPath } from "url";
+import { FlatCompat } from '@eslint/eslintrc';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -11,18 +11,19 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   ...compat.extends(
-    "next/core-web-vitals",
-    "next/typescript",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended",
-    "plugin:prettier/recommended",
+    'next/core-web-vitals',
+    'next/typescript',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended', // Added React Hooks recommended rules
+    'plugin:prettier/recommended',
   ),
   {
-    files: ["**/*.{js,jsx,ts,tsx}"],
+    files: ['**/*.{js,jsx,ts,tsx}'],
     languageOptions: {
       parserOptions: {
         ecmaVersion: 2023,
-        sourceType: "module",
+        sourceType: 'module',
         ecmaFeatures: {
           jsx: true,
         },
@@ -30,27 +31,28 @@ const eslintConfig = [
     },
     settings: {
       react: {
-        version: "detect",
+        version: 'detect',
       },
     },
     rules: {
-      "comma-dangle": ["error", "never"],
-      "object-shorthand": ["error", "always"],
-      "react/react-in-jsx-scope": "off",
-      "react/prop-types": "off",
-      "react/jsx-max-props-per-line": [
-        "error",
+      'comma-dangle': ['error', 'never'],
+      'object-shorthand': ['error', 'always'],
+      'react/react-in-jsx-scope': 'off',
+      'react/prop-types': 'off',
+      semi: ['error', 'always'],
+      'react/jsx-max-props-per-line': [
+        'error',
         {
           maximum: 1,
-          when: "multiline",
+          when: 'multiline',
         },
       ],
-      "prettier/prettier": [
-        "error",
+      'prettier/prettier': [
+        'error',
         {
           singleQuote: true,
           jsxSingleQuote: false,
-          trailingComma: "none",
+          trailingComma: 'none',
           printWidth: 80,
           tabWidth: 2,
           semi: true,
@@ -61,7 +63,7 @@ const eslintConfig = [
     },
   },
   {
-    ignores: ["prisma/generated/**"],
+    ignores: ['prisma/generated/**'],
   },
 ];
 

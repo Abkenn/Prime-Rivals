@@ -8,10 +8,11 @@ import {
   FormMessage
 } from './ui/form';
 import { FormProvider, useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
 
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import { useState } from 'react';
+import { useAblyPlayerJoin } from '../_hooks/usePlayerJoined';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -31,10 +32,12 @@ const schema = z
     }
   );
 
-  type RoomFormData = z.infer<typeof schema>;
+type RoomFormData = z.infer<typeof schema>;
 
 export const RoomSetup = () => {
   const [waiting, setWaiting] = useState(false);
+
+  const { subscribe, playerJoined } = useAblyPlayerJoin();
 
   const form = useForm<RoomFormData>({
     resolver: zodResolver(schema),
@@ -45,11 +48,18 @@ export const RoomSetup = () => {
     if (data.mode === 'create') {
       const code = Math.random().toString(36).slice(2, 8).toUpperCase();
       form.setValue('roomCode', code);
+      subscribe(code);
       setWaiting(true);
     } else {
       setWaiting(false);
     }
   };
+
+  useEffect(() => {
+    if (playerJoined) {
+      console.log(playerJoined);
+    }
+  }, [playerJoined]);
 
   return (
     <FormProvider {...form}>

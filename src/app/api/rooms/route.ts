@@ -30,7 +30,9 @@ export async function PUT(req: NextRequest) {
   const ably = new Realtime({ key: process.env.ABLY_API_KEY });
 
   const channel = ably.channels.get(`room-${roomCode}`);
-  await channel.publish('player-joined', { message: `${secondPlayerName} has joined!` });
+  await channel.publish('player-joined', {
+    message: `${secondPlayerName} has joined!`
+  });
 
   return NextResponse.json(room);
 }

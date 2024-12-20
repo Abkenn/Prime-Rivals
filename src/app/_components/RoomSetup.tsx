@@ -1,4 +1,5 @@
-import { Form, useForm } from 'react-hook-form';
+'use client';
+
 import {
   FormControl,
   FormField,
@@ -6,6 +7,7 @@ import {
   FormLabel,
   FormMessage
 } from './ui/form';
+import { FormProvider, useForm } from 'react-hook-form';
 
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -29,14 +31,17 @@ const schema = z
     }
   );
 
+  type RoomFormData = z.infer<typeof schema>;
+
 export const RoomSetup = () => {
   const [waiting, setWaiting] = useState(false);
-  const form = useForm<z.infer<typeof schema>>({
+
+  const form = useForm<RoomFormData>({
     resolver: zodResolver(schema),
     defaultValues: { playerName: '', roomCode: '', mode: 'create' }
   });
 
-  const onSubmit = (data: z.infer<typeof schema>) => {
+  const onSubmit = (data: RoomFormData) => {
     if (data.mode === 'create') {
       const code = Math.random().toString(36).slice(2, 8).toUpperCase();
       form.setValue('roomCode', code);
@@ -47,10 +52,9 @@ export const RoomSetup = () => {
   };
 
   return (
-    <Form {...form}>
+    <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
-          control={form.control}
           name="playerName"
           render={({ field }) => (
             <FormItem>
@@ -62,8 +66,8 @@ export const RoomSetup = () => {
             </FormItem>
           )}
         />
+
         <FormField
-          control={form.control}
           name="roomCode"
           render={({ field }) => (
             <FormItem>
@@ -75,7 +79,9 @@ export const RoomSetup = () => {
             </FormItem>
           )}
         />
+
         <input type="hidden" {...form.register('mode')} />
+
         <div className="flex gap-2">
           <Button
             type="submit"
@@ -84,6 +90,7 @@ export const RoomSetup = () => {
           >
             Create Game
           </Button>
+
           <Button
             type="submit"
             onClick={() => form.setValue('mode', 'join')}
@@ -92,8 +99,9 @@ export const RoomSetup = () => {
             Join Game
           </Button>
         </div>
+
         {waiting && <div>Waiting for another player to join...</div>}
       </form>
-    </Form>
+    </FormProvider>
   );
 };

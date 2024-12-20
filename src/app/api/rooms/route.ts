@@ -4,9 +4,7 @@ import { PrismaClient } from '@prisma/client';
 import { Realtime } from 'ably';
 
 export async function POST(req: NextRequest) {
-  const { hostPlayerName } = await req.json();
-
-  const roomCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+  const { hostPlayerName, roomCode } = await req.json();
 
   const prisma = new PrismaClient();
 

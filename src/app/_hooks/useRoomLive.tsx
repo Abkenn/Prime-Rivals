@@ -1,7 +1,9 @@
+'use client';
+
 import { Realtime, RealtimeChannel } from 'ably';
 import { useEffect, useState } from 'react';
 
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 type UseAblyPlayerJoinHook = {
   playerJoined: string | null;

@@ -14,6 +14,7 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Loader2 } from 'lucide-react';
 import { useRoomLive } from '../_hooks/useRoomLive';
+import { useState } from 'react';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -33,8 +34,9 @@ const schema = z
 type RoomFormData = z.infer<typeof schema>;
 
 export const RoomSetup = () => {
+  const [isWaiting, setIsWaiting] = useState(false);
+
   const { subscribe, playerJoined } = useRoomLive();
-  const isRoomReady = Boolean(playerJoined && playerJoined.trim() !== '');
 
   const form = useForm<RoomFormData>({
     resolver: zodResolver(schema),
@@ -56,6 +58,7 @@ export const RoomSetup = () => {
     } else {
       await joinRoom(playerName, String(roomCode));
     }
+    setIsWaiting(true);
   };
 
   return (
@@ -80,7 +83,7 @@ export const RoomSetup = () => {
             <FormItem>
               <FormLabel>Room Code</FormLabel>
               <FormControl>
-                <Input {...field} disabled={!isRoomReady} />
+                <Input {...field} disabled={isWaiting} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -93,7 +96,7 @@ export const RoomSetup = () => {
           <Button
             type="submit"
             onClick={() => setValue('mode', 'create')}
-            disabled={!isRoomReady}
+            disabled={isWaiting}
           >
             Create Game
           </Button>
@@ -101,10 +104,10 @@ export const RoomSetup = () => {
           <Button
             type="submit"
             onClick={() => setValue('mode', 'join')}
-            disabled={!isRoomReady}
+            disabled={isWaiting}
           >
             {mode === 'join' ? (
-              <span>
+              <span className="inline-flex items-center gap-2">
                 <Loader2 className="animate-spin" />
                 Please wait
               </span>
@@ -114,9 +117,9 @@ export const RoomSetup = () => {
           </Button>
         </div>
 
-        {mode === 'create' && (
+        {isWaiting && mode === 'create' && (
           <div>
-            {isRoomReady
+            {playerJoined
               ? `${playerJoined} joined the room!`
               : 'Waiting for another player to join...'}
           </div>

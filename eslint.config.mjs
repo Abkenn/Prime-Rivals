@@ -58,6 +58,7 @@ const eslintConfig = [
           semi: true,
           bracketSpacing: true,
           jsxBracketSameLine: false,
+          endOfLine: 'lf',
         },
       ],
     },

@@ -15,8 +15,7 @@ const eslintConfig = [
     'next/typescript',
     'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
-    'plugin:react-hooks/recommended', // Added React Hooks recommended rules
-    'plugin:prettier/recommended',
+    'plugin:react-hooks/recommended',
   ),
   {
     files: ['**/*.{js,jsx,ts,tsx}'],
@@ -45,20 +44,6 @@ const eslintConfig = [
         {
           maximum: 1,
           when: 'multiline',
-        },
-      ],
-      'prettier/prettier': [
-        'warn',
-        {
-          singleQuote: true,
-          jsxSingleQuote: false,
-          trailingComma: 'none',
-          printWidth: 80,
-          tabWidth: 2,
-          semi: true,
-          bracketSpacing: true,
-          jsxBracketSameLine: false,
-          endOfLine: 'lf',
         },
       ],
     },

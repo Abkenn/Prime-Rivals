@@ -1,7 +1,11 @@
+import { RoomSetup } from '../_components/RoomSetup';
+
 export default function Home() {
   return (
-    <div className="justify-items-center min-h-screen p-8 pb-20 sm:p-20">
-      <div>Hello World</div>
+    <div className="flex flex-col items-center justify-center min-h-screen p-8 space-y-6">
+      <h1 className="text-2xl font-bold text-center">Prime Rivals</h1>
+
+      <RoomSetup />
     </div>
   );
 }

@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { PrismaClient, Room } from '@prisma/client';
 
-import { PrismaClient } from '@prisma/client';
 import { Rest } from 'ably';
 
 export async function POST(req: NextRequest) {
-  const { hostPlayerName, roomCode } = await req.json();
+  const { hostPlayerName, roomCode } = (await req.json()) as Pick<
+    Room,
+    'hostPlayerName' | 'roomCode'
+  >;
 
   const prisma = new PrismaClient();
 
@@ -16,7 +19,10 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PUT(req: NextRequest) {
-  const { secondPlayerName, roomCode } = await req.json();
+  const { secondPlayerName, roomCode } = (await req.json()) as Pick<
+    Room,
+    'secondPlayerName' | 'roomCode'
+  >;
 
   const prisma = new PrismaClient();
 

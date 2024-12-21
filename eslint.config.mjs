@@ -48,7 +48,7 @@ const eslintConfig = [
         },
       ],
       'prettier/prettier': [
-        'error',
+        'warn',
         {
           singleQuote: true,
           jsxSingleQuote: false,

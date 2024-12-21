@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient, Room } from '@prisma/client';
+import { NextRequest, NextResponse } from 'next/server';
 
 import { Rest } from 'ably';
 
@@ -34,7 +34,7 @@ export async function PUT(req: NextRequest) {
   const rest = new Rest({ key: process.env.ABLY_API_KEY });
   const channel = rest.channels.get(`room-${roomCode}`);
   await channel.publish('player-joined', {
-    message: `${secondPlayerName} has joined!`
+    message: secondPlayerName
   });
 
   return NextResponse.json(room);

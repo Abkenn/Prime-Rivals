@@ -1,5 +1,7 @@
 'use client';
 
+import { FormProvider, useForm } from 'react-hook-form';
+import { createRoom, joinRoom } from '../_actions/roomActions';
 import {
   FormControl,
   FormField,
@@ -7,16 +9,14 @@ import {
   FormLabel,
   FormMessage
 } from './ui/form';
-import { FormProvider, useForm } from 'react-hook-form';
-import { createRoom, joinRoom } from '../_actions/roomActions';
 
-import { Button } from './ui/button';
-import { Input } from './ui/input';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
-import { useRoomLive } from '../_hooks/useRoomLive';
 import { useState } from 'react';
 import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { useRoomLive } from '../_hooks/useRoomLive';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
 
 const schema = z
   .object({
@@ -120,7 +120,7 @@ export const RoomSetup = () => {
         {isWaiting && mode === 'create' && (
           <div>
             {playerJoined
-              ? `${playerJoined} joined the room!`
+              ? `${playerJoined} has joined the room!`
               : 'Waiting for another player to join...'}
           </div>
         )}

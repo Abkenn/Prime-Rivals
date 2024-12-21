@@ -6,7 +6,7 @@ export const createRoom = async (
   playerName: string,
   roomCode: string
 ): Promise<Room> => {
-  const response = await fetch('http://localhost:3000/api/rooms', {
+  const response = await fetch(`${process.env.API_URL}/api/rooms`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -26,7 +26,7 @@ export const joinRoom = async (
   playerName: string,
   roomCode: string
 ): Promise<Room> => {
-  const response = await fetch('http://localhost:3000/api/rooms', {
+  const response = await fetch(`${process.env.API_URL}/api/rooms`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'

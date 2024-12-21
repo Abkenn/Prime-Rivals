@@ -5,7 +5,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from './ui/form';
 import { FormProvider, useForm } from 'react-hook-form';
 import { createRoom, joinRoom } from '../_actions/roomActions';
@@ -22,13 +22,13 @@ const schema = z
   .object({
     playerName: z.string().nonempty('Name is required'),
     roomCode: z.string().optional(),
-    mode: z.enum(['create', 'join'])
+    mode: z.enum(['create', 'join']),
   })
   .refine(
     (data) =>
       data.mode === 'create' ||
       (data.mode === 'join' && data.roomCode && data.roomCode.trim() !== ''),
-    { message: 'Room code is required', path: ['roomCode'] }
+    { message: 'Room code is required', path: ['roomCode'] },
   );
 
 type RoomFormData = z.infer<typeof schema>;
@@ -40,7 +40,7 @@ export const RoomSetup = () => {
 
   const form = useForm<RoomFormData>({
     resolver: zodResolver(schema),
-    defaultValues: { playerName: '', roomCode: '', mode: 'create' }
+    defaultValues: { playerName: '', roomCode: '', mode: 'create' },
   });
 
   const { register, watch, setValue, handleSubmit } = form;

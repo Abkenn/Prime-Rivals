@@ -4,14 +4,14 @@ import { Room } from '@prisma/client';
 
 export const createRoom = async (
   playerName: string,
-  roomCode: string
+  roomCode: string,
 ): Promise<Room> => {
   const response = await fetch('http://localhost:3000/api/rooms', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ hostPlayerName: playerName, roomCode })
+    body: JSON.stringify({ hostPlayerName: playerName, roomCode }),
   });
 
   if (!response.ok) {
@@ -24,14 +24,14 @@ export const createRoom = async (
 
 export const joinRoom = async (
   playerName: string,
-  roomCode: string
+  roomCode: string,
 ): Promise<Room> => {
   const response = await fetch('http://localhost:3000/api/rooms', {
     method: 'PUT',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ secondPlayerName: playerName, roomCode })
+    body: JSON.stringify({ secondPlayerName: playerName, roomCode }),
   });
 
   if (!response.ok) {

@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
   const prisma = new PrismaClient();
 
   const room = await prisma.room.create({
-    data: { roomCode, hostPlayerName }
+    data: { roomCode, hostPlayerName },
   });
 
   return NextResponse.json(room);
@@ -28,13 +28,13 @@ export async function PUT(req: NextRequest) {
 
   const room = await prisma.room.update({
     where: { roomCode },
-    data: { secondPlayerName, status: 'Playing' }
+    data: { secondPlayerName, status: 'Playing' },
   });
 
   const rest = new Rest({ key: process.env.ABLY_API_KEY });
   const channel = rest.channels.get(`room-${roomCode}`);
   await channel.publish('player-joined', {
-    message: `${secondPlayerName} has joined!`
+    message: `${secondPlayerName} has joined!`,
   });
 
   return NextResponse.json(room);

@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const compat = new FlatCompat({
-  baseDirectory: __dirname,
+  baseDirectory: __dirname
 });
 
 const eslintConfig = [
@@ -15,23 +15,20 @@ const eslintConfig = [
     'next/typescript',
     'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
-    'plugin:react-hooks/recommended',
+    'plugin:react-hooks/recommended'
   ),
   {
-    files: ['**/*.{js,jsx,ts,tsx}'],
     languageOptions: {
       parserOptions: {
-        ecmaVersion: 2023,
-        sourceType: 'module',
         ecmaFeatures: {
-          jsx: true,
-        },
-      },
+          jsx: true
+        }
+      }
     },
     settings: {
       react: {
-        version: 'detect',
-      },
+        version: 'detect'
+      }
     },
     rules: {
       'comma-dangle': ['error', 'never'],
@@ -43,14 +40,14 @@ const eslintConfig = [
         'error',
         {
           maximum: 1,
-          when: 'multiline',
-        },
-      ],
-    },
+          when: 'multiline'
+        }
+      ]
+    }
   },
   {
-    ignores: ['prisma/generated/**'],
-  },
+    ignores: ['prisma/generated/**']
+  }
 ];
 
 export default eslintConfig;

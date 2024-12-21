@@ -8,11 +8,11 @@ import {
   FormMessage
 } from './ui/form';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
+import { createRoom, joinRoom } from '../_actions/roomActions';
 
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import { useAblyPlayerJoin } from '../_hooks/usePlayerJoined';
+import { useRoomLive } from '../_hooks/useRoomLive';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -35,31 +35,27 @@ const schema = z
 type RoomFormData = z.infer<typeof schema>;
 
 export const RoomSetup = () => {
-  const [waiting, setWaiting] = useState(false);
-
-  const { subscribe, playerJoined } = useAblyPlayerJoin();
+  const { subscribe, playerJoined } = useRoomLive();
+  const isRoomReady = playerJoined && playerJoined.trim() !== '';
 
   const form = useForm<RoomFormData>({
     resolver: zodResolver(schema),
     defaultValues: { playerName: '', roomCode: '', mode: 'create' }
   });
 
-  const onSubmit = (data: RoomFormData) => {
+  const onSubmit = async (data: RoomFormData) => {
     if (data.mode === 'create') {
       const code = Math.random().toString(36).slice(2, 8).toUpperCase();
       form.setValue('roomCode', code);
+      await createRoom(form.getValues('playerName'), code);
       subscribe(code);
-      setWaiting(true);
     } else {
-      setWaiting(false);
+      await joinRoom(
+        form.getValues('playerName'),
+        String(form.getValues('roomCode'))
+      );
     }
   };
-
-  useEffect(() => {
-    if (playerJoined) {
-      console.log(playerJoined);
-    }
-  }, [playerJoined]);
 
   return (
     <FormProvider {...form}>
@@ -83,7 +79,7 @@ export const RoomSetup = () => {
             <FormItem>
               <FormLabel>Room Code</FormLabel>
               <FormControl>
-                <Input {...field} disabled={waiting} />
+                <Input {...field} disabled={!isRoomReady} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -96,7 +92,7 @@ export const RoomSetup = () => {
           <Button
             type="submit"
             onClick={() => form.setValue('mode', 'create')}
-            disabled={waiting}
+            disabled={!isRoomReady}
           >
             Create Game
           </Button>
@@ -104,13 +100,17 @@ export const RoomSetup = () => {
           <Button
             type="submit"
             onClick={() => form.setValue('mode', 'join')}
-            disabled={waiting}
+            disabled={!isRoomReady}
           >
             Join Game
           </Button>
         </div>
 
-        {waiting && <div>Waiting for another player to join...</div>}
+        {isRoomReady ? (
+          <div>{playerJoined} joined the room!</div>
+        ) : (
+          <div>Waiting for another player to join...</div>
+        )}
       </form>
     </FormProvider>
   );

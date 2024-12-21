@@ -6,18 +6,9 @@ type UseAblyPlayerJoinHook = {
   subscribe: (roomCode: string) => void;
 };
 
-export const useAblyPlayerJoin = (): UseAblyPlayerJoinHook => {
+export const useRoomLive = (): UseAblyPlayerJoinHook => {
   const [playerJoined, setPlayerJoined] = useState<string | null>(null);
-  const [channel, setChannel] = useState<null | RealtimeChannel>(null);
-
-  useEffect(() => {
-    return () => {
-      if (channel) {
-        channel.unsubscribe();
-        channel.detach();
-      }
-    };
-  }, [channel]);
+  const [channel, setChannel] = useState<RealtimeChannel | null>(null);
 
   const subscribe = (roomCode: string) => {
     const ably = new Realtime({ key: process.env.ABLY_API_KEY });
@@ -30,6 +21,15 @@ export const useAblyPlayerJoin = (): UseAblyPlayerJoinHook => {
 
     setChannel(roomChannel);
   };
+
+  useEffect(() => {
+    return () => {
+      if (channel) {
+        channel.unsubscribe();
+        channel.detach();
+      }
+    };
+  }, [channel]);
 
   return { playerJoined, subscribe };
 };

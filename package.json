@@ -9,8 +9,8 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "prisma": "dotenv -e .env.development.local -- prisma",
-    "postinstall": "npm run prisma generate && prisma generate",
-    "vercel:build": "prisma migrate deploy && next build"
+    "postinstall": "npm run prisma generate",
+    "vercel:build": "npm run prisma migrate deploy && next build"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",

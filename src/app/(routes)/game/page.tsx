@@ -1,12 +1,8 @@
 import { getRoom } from "@/app/_actions/roomActions";
 
-export default async function GamePage({
-  searchParams
-}: {
-  searchParams: { [key: string]: string | undefined };
-}) {
-  const roomCode = searchParams.roomCode ?? '';
-  const roomData = await getRoom(roomCode);
+export default async function GamePage(props: { searchParams: Promise<Record<string, string | undefined>> }) {
+  const searchParams = await props.searchParams;
+  const roomData = await getRoom(searchParams.roomCode ?? '');
 
   return (
     <div className="flex flex-col items-center min-h-screen px-8 py-24 space-y-8">

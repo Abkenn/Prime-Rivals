@@ -1,5 +1,6 @@
 'use client';
 
+import { use, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { createRoom, joinRoom } from '../_actions/roomActions';
 import {
@@ -12,9 +13,10 @@ import {
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 import { useRoomLive } from '../_hooks/useRoomLive';
+import { RoomContext } from '../_providers/RoomProvider';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 
@@ -38,6 +40,10 @@ export const RoomSetup = () => {
 
   const { subscribe, playerJoined } = useRoomLive();
 
+  const router = useRouter();
+
+  const roomContext = use(RoomContext);
+
   const form = useForm<RoomFormData>({
     resolver: zodResolver(schema),
     defaultValues: { playerName: '', roomCode: '', mode: 'create' }
@@ -54,10 +60,18 @@ export const RoomSetup = () => {
       const code = Math.random().toString(36).slice(2, 8).toUpperCase();
       setValue('roomCode', code);
       await createRoom(playerName, code);
+      roomContext?.setHost(playerName);
+      roomContext?.setRoomCode(code);
       subscribe(code);
     } else {
       await joinRoom(playerName, String(roomCode));
+      roomContext?.setGuest(playerName);
+      roomContext?.setRoomCode(roomCode);
+      setTimeout(() => {
+        router.push(`/game?roomCode=${roomCode}`);
+      }, 5000);
     }
+
     setIsWaiting(true);
   };
 

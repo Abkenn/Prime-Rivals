@@ -41,3 +41,19 @@ export const joinRoom = async (
 
   return response.json();
 };
+
+export const getRoom = async (roomCode: string): Promise<Room> => {
+  const response = await fetch(`${process.env.API_URL}/api/rooms?roomCode=${roomCode}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error || 'Failed to fetch room.');
+  }
+
+  return response.json();
+};

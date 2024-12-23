@@ -1,9 +1,10 @@
 'use client';
 
 import { Realtime, RealtimeChannel } from 'ably';
-import { useEffect, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 
 import { useRouter } from 'next/navigation';
+import { RoomContext } from '../_providers/RoomProvider';
 
 type UseAblyPlayerJoinHook = {
   playerJoined: string | null;
@@ -13,6 +14,8 @@ type UseAblyPlayerJoinHook = {
 export const useRoomLive = (): UseAblyPlayerJoinHook => {
   const [playerJoined, setPlayerJoined] = useState<string | null>(null);
   const [channel, setChannel] = useState<RealtimeChannel | null>(null);
+
+  const roomContext = use(RoomContext);
 
   const router = useRouter();
 
@@ -33,12 +36,12 @@ export const useRoomLive = (): UseAblyPlayerJoinHook => {
 
     if (playerJoined) {
       timeout = setTimeout(() => {
-        router.push('/game');
+        router.push(`/game?roomCode=${roomContext?.roomCode}`);
       }, 5000);
     }
 
     return () => clearTimeout(timeout);
-  }, [playerJoined, router]);
+  }, [playerJoined, roomContext?.roomCode, router]);
 
   useEffect(() => {
     return () => {

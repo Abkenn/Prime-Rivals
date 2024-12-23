@@ -39,3 +39,37 @@ export async function PUT(req: NextRequest) {
 
   return NextResponse.json(room);
 }
+
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const roomCode = searchParams.get('roomCode');
+
+  if (!roomCode) {
+    return NextResponse.json(
+      { error: 'Room code is required' },
+      { status: 400 }
+    );
+  }
+
+  try {
+    const prisma = new PrismaClient();
+    const room = await prisma.room.findUnique({
+      where: { roomCode }
+    });
+
+    if (!room) {
+      return NextResponse.json(
+        { error: 'Room not found' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(room);
+  } catch (error) {
+    console.error('Error fetching room:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch room' },
+      { status: 500 }
+    );
+  }
+}

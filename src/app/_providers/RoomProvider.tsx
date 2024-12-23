@@ -3,10 +3,10 @@
 import { Dispatch, PropsWithChildren, SetStateAction, createContext, useState } from "react";
 
 export type RoomPersistence = {
-  player: string | undefined,
-  setPlayer: Dispatch<SetStateAction<string | undefined>>
-  enemy: string | undefined,
-  setEnemy: Dispatch<SetStateAction<string | undefined>>
+  host: string | undefined,
+  setHost: Dispatch<SetStateAction<string | undefined>>
+  guest: string | undefined,
+  setGuest: Dispatch<SetStateAction<string | undefined>>
   roomCode: string | undefined,
   setRoomCode: Dispatch<SetStateAction<string | undefined>>
 };
@@ -14,11 +14,11 @@ export type RoomPersistence = {
 export const RoomContext = createContext<RoomPersistence | null>(null);
 
 export const RoomProvider = ({ children }: PropsWithChildren) => {
-  const [player, setPlayer] = useState<string>();
-  const [enemy, setEnemy] = useState<string>();
+  const [host, setHost] = useState<string>();
+  const [guest, setGuest] = useState<string>();
   const [roomCode, setRoomCode] = useState<string>();
 
-  return (<RoomContext value={{ player, setPlayer, enemy, setEnemy, roomCode, setRoomCode }}>
+  return (<RoomContext value={{ host, setHost, guest, setGuest, roomCode, setRoomCode }}>
     {children}
   </RoomContext>);
 };
